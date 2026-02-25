@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Risk Prediction System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <h1>🏥 Health Risk Prediction</h1>
+            </div>
+            <div class="navbar-status">
+                <span id="status-indicator" class="status-dot healthy"></span>
+                <span id="status-text">System Ready</span>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Form Section -->
+            <section class="form-section">
+                <div class="form-container">
+                    <h2>Patient Health Assessment</h2>
+                    <p class="form-subtitle">Enter patient information to predict health risk level</p>
+                    
+                    <form id="predictionForm">
+                                            <div class="form-grid">
+                                                <!-- Patient Name -->
+                                                <div class="form-group">
+                                                    <label for="patient_name">Patient Name</label>
+                                                    <input type="text" id="patient_name" name="patient_name" placeholder="Enter patient name" required>
+                                                </div>
+                            <!-- Patient ID -->
+                            <div class="form-group">
+                                <label for="patient_id">Patient ID</label>
+                                <input type="number" id="patient_id" name="patient_id" value="1" required>
+                            </div>
+
+                            <!-- Age -->
+                            <div class="form-group">
+                                <label for="age">Age (years)</label>
+                                <input type="number" id="age" name="age" min="0" max="150" placeholder="Enter age" required>
+                            </div>
+
+                            <!-- BMI -->
+                            <div class="form-group">
+                                <label for="bmi">BMI (kg/m²)</label>
+                                <input type="number" id="bmi" name="bmi" min="10" max="60" step="0.1" placeholder="Enter BMI" required>
+                            </div>
+
+                            <!-- Blood Pressure -->
+                            <div class="form-group">
+                                <label for="blood_pressure">Blood Pressure (mmHg)</label>
+                                <input type="number" id="blood_pressure" name="blood_pressure" min="70" max="250" placeholder="Enter BP" required>
+                            </div>
+
+                            <!-- Cholesterol -->
+                            <div class="form-group">
+                                <label for="cholesterol">Cholesterol (mg/dL)</label>
+                                <input type="number" id="cholesterol" name="cholesterol" min="100" max="400" value="200" placeholder="Enter cholesterol">
+                            </div>
+
+                            <!-- Smoking -->
+                            <div class="form-group">
+                                <label for="smoking">Smoking Status</label>
+                                <select id="smoking" name="smoking">
+                                    <option value="0">Non-smoker</option>
+                                    <option value="1">Smoker</option>
+                                </select>
+                            </div>
+
+                            <!-- Diabetes -->
+                            <div class="form-group">
+                                <label for="diabetes">Diabetes</label>
+                                <select id="diabetes" name="diabetes">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+
+                            <!-- Heart Disease -->
+                            <div class="form-group">
+                                <label for="heart_disease">Heart Disease</label>
+                                <select id="heart_disease" name="heart_disease">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">Analyze Risk</button>
+                            <button type="reset" class="btn btn-secondary">Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <div class="results-container">
+                    <h2>Risk Assessment Results</h2>
+                    
+                    <!-- Risk Level Card -->
+                    <div class="risk-card" id="riskCard">
+                        <div class="risk-header">
+                            <h3>Overall Risk Level</h3>
+                        </div>
+                        <div class="risk-level" id="riskLevel">-</div>
+                        <div class="confidence">
+                            <span>Model Confidence:</span>
+                            <span id="confidence">0%</span>
+                        </div>
+                    </div>
+
+                    <!-- Patient Info Card -->
+                    <div class="info-card">
+                        <h3>Patient Information</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="label">Age:</span>
+                                <span id="displayAge" class="value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">BMI:</span>
+                                <span id="displayBMI" class="value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Blood Pressure:</span>
+                                <span id="displayBP" class="value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Cholesterol:</span>
+                                <span id="displayCholesterol" class="value">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendations Card -->
+                    <div class="recommendations-card">
+                        <h3>🎯 Health Recommendations</h3>
+                        <div id="recommendations" class="recommendations-list">
+                            <!-- Recommendations will be inserted here -->
+                        </div>
+                    </div>
+
+                    <!-- Probability Card -->
+                    <div class="probability-card">
+                        <h3>Risk Probability Distribution</h3>
+                        <div id="probabilityChart" class="probability-chart">
+                            <!-- Chart will be inserted here -->
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="scrollToForm()">New Assessment</button>
+                </div>
+            </section>
+
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                <div class="spinner"></div>
+                <p>Analyzing patient data...</p>
+            </div>
+
+            <!-- Error Message -->
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2026 Health Risk Prediction System | Version 1.0</p>
+            <p>Powered by Machine Learning | API Status: <span id="apiStatus">Checking...</span></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
