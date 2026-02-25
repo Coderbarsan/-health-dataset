@@ -4,6 +4,10 @@ import numpy as np
 import joblib
 import os
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # SHAP for explainability
 import shap
@@ -11,8 +15,8 @@ import shap
 # Supabase integration
 from supabase import create_client, Client
 
-SUPABASE_URL = "https://pnkziwbngtddjsuusocp.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBua3ppd2JuZ3RkZGpzdXVzb2NwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwNTM4ODEsImV4cCI6MjA4NzYyOTg4MX0.1SufwjGNU0CkcsrI8oJEZQU0FJBjO6DFfq8P5p0hT70"
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 app = Flask(__name__)
 CORS(app)
