@@ -1,5 +1,5 @@
 // Configuration
-const API_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL = 'https://health-backend-nb6o.onrender.com';
 
 // DOM Elements
 const form = document.getElementById('predictionForm');
@@ -45,14 +45,14 @@ function setAPIError(message) {
 // Handle Form Submission
 async function handleFormSubmit(e) {
     e.preventDefault();
-    
+
     // Hide previous results
     resultsSection.style.display = 'none';
     errorMessage.style.display = 'none';
-    
+
     // Show loading spinner
     loadingSpinner.style.display = 'flex';
-    
+
     // Get form data
     const formData = new FormData(form);
     const patientData = {
@@ -66,7 +66,7 @@ async function handleFormSubmit(e) {
         diabetes: parseInt(formData.get('diabetes')),
         heart_disease: parseInt(formData.get('heart_disease'))
     };
-    
+
     try {
         // Make API request to /predict
         const response = await fetch(`${API_BASE_URL}/predict`, {
@@ -112,10 +112,10 @@ function displayResults(result, patientData) {
     const riskLevel = result.prediction.risk_level;
     const riskLevelElement = document.getElementById('riskLevel');
     const riskCard = document.getElementById('riskCard');
-    
+
     riskLevelElement.textContent = riskLevel.toUpperCase();
     riskLevelElement.className = `risk-level ${riskLevel.toLowerCase()}`;
-    
+
     // Update border color based on risk
     if (riskLevel === 'LOW') {
         riskCard.style.borderLeftColor = '#10b981';
@@ -124,20 +124,20 @@ function displayResults(result, patientData) {
     } else {
         riskCard.style.borderLeftColor = '#ef4444';
     }
-    
+
     // Update confidence
-    document.getElementById('confidence').textContent = 
+    document.getElementById('confidence').textContent =
         result.prediction.model_confidence.toFixed(1) + '%';
-    
+
     // Update patient info
     document.getElementById('displayAge').textContent = patientData.age;
     document.getElementById('displayBMI').textContent = patientData.bmi.toFixed(1);
     document.getElementById('displayBP').textContent = patientData.blood_pressure;
     document.getElementById('displayCholesterol').textContent = patientData.cholesterol;
-    
+
     // Display recommendations
     displayRecommendations(result.recommendations);
-    
+
     // Display probability chart
     displayProbabilityChart(result.prediction.probabilities);
 }
@@ -146,11 +146,11 @@ function displayResults(result, patientData) {
 function displayRecommendations(recommendations) {
     const container = document.getElementById('recommendations');
     container.innerHTML = '';
-    
+
     recommendations.forEach(rec => {
         const div = document.createElement('div');
         div.className = 'recommendation-item';
-        
+
         // Determine class based on severity
         if (rec.includes('[CRITICAL]')) {
             div.className += ' critical';
@@ -163,7 +163,7 @@ function displayRecommendations(recommendations) {
         } else {
             div.className += ' info';
         }
-        
+
         div.textContent = rec;
         container.appendChild(div);
     });
@@ -173,24 +173,24 @@ function displayRecommendations(recommendations) {
 function displayProbabilityChart(probabilities) {
     const container = document.getElementById('probabilityChart');
     container.innerHTML = '';
-    
+
     // Sort probabilities by key
     const sortedProbs = Object.entries(probabilities).sort();
-    
+
     sortedProbs.forEach(([label, percentage]) => {
         const groupDiv = document.createElement('div');
         groupDiv.className = 'probability-bar-group';
-        
+
         const labelDiv = document.createElement('div');
         labelDiv.className = 'probability-label';
         labelDiv.textContent = label;
-        
+
         const containerDiv = document.createElement('div');
         containerDiv.className = 'probability-bar-container';
-        
+
         const barDiv = document.createElement('div');
         barDiv.className = 'probability-bar';
-        
+
         // Determine bar color based on label
         if (label.toLowerCase() === 'low') {
             barDiv.className += ' low';
@@ -199,15 +199,15 @@ function displayProbabilityChart(probabilities) {
         } else {
             barDiv.className += ' high';
         }
-        
+
         barDiv.textContent = percentage.toFixed(1) + '%';
         barDiv.style.width = '0%';
-        
+
         containerDiv.appendChild(barDiv);
         groupDiv.appendChild(labelDiv);
         groupDiv.appendChild(containerDiv);
         container.appendChild(groupDiv);
-        
+
         // Animate bar
         setTimeout(() => {
             barDiv.style.width = percentage.toFixed(1) + '%';
@@ -235,7 +235,7 @@ form.addEventListener('input', () => {
     const age = parseFloat(document.getElementById('age').value);
     const bmi = parseFloat(document.getElementById('bmi').value);
     const bp = parseFloat(document.getElementById('blood_pressure').value);
-    
+
     // Show warnings for extreme values
     if (age < 0 || age > 120) {
         console.warn('Age value seems unusual');
