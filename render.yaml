@@ -11,7 +11,6 @@ services:
         value: production
       - key: PYTHON_VERSION
         value: 3.10.12
-    plan: free
 
   # ── Frontend: Static Site ───────────────────────────────────────
   - type: web
@@ -19,4 +18,3 @@ services:
     runtime: static
     rootDir: frontend
     staticPublishPath: .
-    plan: free
