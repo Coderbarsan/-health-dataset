@@ -1,0 +1,22 @@
+services:
+  # ── Backend: Flask API ──────────────────────────────────────────
+  - type: web
+    name: health-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --timeout 120
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: PYTHON_VERSION
+        value: 3.10.12
+    plan: free
+
+  # ── Frontend: Static Site ───────────────────────────────────────
+  - type: web
+    name: health-frontend
+    runtime: static
+    rootDir: frontend
+    staticPublishPath: .
+    plan: free
