@@ -140,6 +140,86 @@ function displayResults(result, patientData) {
 
     // Display probability chart
     displayProbabilityChart(result.prediction.probabilities);
+
+    // Display diet chart
+    if (result.diet_chart) {
+        displayDietChart(result.diet_chart);
+    }
+}
+
+// Display Diet Chart
+function displayDietChart(dietChart) {
+    // Recommended Foods
+    const recContainer = document.getElementById('recommendedFoods');
+    recContainer.innerHTML = '';
+    dietChart.recommended_foods.forEach(food => {
+        const div = document.createElement('div');
+        div.className = 'diet-item recommended';
+        div.textContent = food;
+        recContainer.appendChild(div);
+    });
+
+    // Foods to Avoid
+    const avoidContainer = document.getElementById('avoidFoods');
+    avoidContainer.innerHTML = '';
+    dietChart.foods_to_avoid.forEach(food => {
+        const div = document.createElement('div');
+        div.className = 'diet-item avoid';
+        div.textContent = food;
+        avoidContainer.appendChild(div);
+    });
+
+    // Meal Plan
+    const mealContainer = document.getElementById('mealPlan');
+    mealContainer.innerHTML = '';
+    const mealLabels = {
+        'breakfast': '🌅 Breakfast',
+        'mid_morning_snack': '🕐 Mid-Morning Snack',
+        'lunch': '☀️ Lunch',
+        'evening_snack': '🌤️ Evening Snack',
+        'dinner': '🌙 Dinner'
+    };
+    Object.entries(dietChart.meal_plan).forEach(([meal, items]) => {
+        const mealCard = document.createElement('div');
+        mealCard.className = 'meal-card';
+        const title = document.createElement('h4');
+        title.textContent = mealLabels[meal] || meal;
+        mealCard.appendChild(title);
+        const ul = document.createElement('ul');
+        items.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            ul.appendChild(li);
+        });
+        mealCard.appendChild(ul);
+        mealContainer.appendChild(mealCard);
+    });
+
+    // Special Notes
+    const notesContainer = document.getElementById('specialNotes');
+    notesContainer.innerHTML = '';
+    dietChart.special_notes.forEach(note => {
+        const div = document.createElement('div');
+        div.className = 'diet-item note';
+        div.textContent = note;
+        notesContainer.appendChild(div);
+    });
+
+    // Water Intake
+    document.getElementById('waterIntake').textContent = dietChart.daily_water_intake;
+
+    // Reset tabs to show recommended first
+    switchDietTab('recommended');
+}
+
+// Switch Diet Chart Tabs
+function switchDietTab(tabName) {
+    // Hide all content
+    document.querySelectorAll('.diet-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.diet-tab').forEach(el => el.classList.remove('active'));
+    // Show selected
+    document.getElementById('diet-' + tabName).classList.add('active');
+    document.getElementById('tab-' + tabName).classList.add('active');
 }
 
 // Display Recommendations

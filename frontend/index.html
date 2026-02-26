@@ -156,6 +156,43 @@
                         </div>
                     </div>
 
+                    <!-- Diet Chart Section -->
+                    <div class="diet-chart-card" id="dietChartSection">
+                        <h3>🥗 Personalized Diet Chart</h3>
+                        
+                        <!-- Diet Tabs -->
+                        <div class="diet-tabs">
+                            <button class="diet-tab active" onclick="switchDietTab('recommended')" id="tab-recommended">✅ Recommended</button>
+                            <button class="diet-tab" onclick="switchDietTab('avoid')" id="tab-avoid">🚫 Avoid</button>
+                            <button class="diet-tab" onclick="switchDietTab('mealplan')" id="tab-mealplan">🍽️ Meal Plan</button>
+                            <button class="diet-tab" onclick="switchDietTab('notes')" id="tab-notes">📋 Notes</button>
+                        </div>
+
+                        <!-- Recommended Foods -->
+                        <div class="diet-content active" id="diet-recommended">
+                            <div class="diet-list" id="recommendedFoods"></div>
+                        </div>
+
+                        <!-- Foods to Avoid -->
+                        <div class="diet-content" id="diet-avoid">
+                            <div class="diet-list" id="avoidFoods"></div>
+                        </div>
+
+                        <!-- Meal Plan -->
+                        <div class="diet-content" id="diet-mealplan">
+                            <div class="meal-plan-grid" id="mealPlan"></div>
+                        </div>
+
+                        <!-- Special Notes -->
+                        <div class="diet-content" id="diet-notes">
+                            <div class="diet-list" id="specialNotes"></div>
+                            <div class="water-intake">
+                                <span>💧 Daily Water Intake:</span>
+                                <strong id="waterIntake">8 glasses</strong>
+                            </div>
+                        </div>
+                    </div>
+
                     <button class="btn btn-primary" onclick="scrollToForm()">New Assessment</button>
                 </div>
             </section>

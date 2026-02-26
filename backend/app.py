@@ -84,6 +84,114 @@ def get_health_recommendations(age, bmi, blood_pressure):
     
     return recommendations
 
+def get_diet_chart(age, bmi, blood_pressure, cholesterol, smoking, diabetes, heart_disease):
+    """Generate personalized diet chart based on patient health data"""
+    diet = {
+        "recommended_foods": [],
+        "foods_to_avoid": [],
+        "meal_plan": {
+            "breakfast": [],
+            "mid_morning_snack": [],
+            "lunch": [],
+            "evening_snack": [],
+            "dinner": []
+        },
+        "daily_water_intake": "8 glasses (2 liters)",
+        "special_notes": []
+    }
+
+    # ── BMI-based diet ──
+    if bmi < 18.5:  # Underweight
+        diet["recommended_foods"].extend(["🥜 Nuts & dry fruits", "🥛 Full-fat milk & dairy", "🍌 Bananas & mangoes", "🍚 Brown rice & whole grains", "🥑 Avocados", "🍳 Eggs & lean meat", "🫘 Lentils & beans"])
+        diet["foods_to_avoid"].extend(["🚫 Junk food (empty calories)", "🚫 Excessive caffeine"])
+        diet["meal_plan"]["breakfast"].extend(["Oatmeal with banana, nuts & honey", "Boiled eggs (2)", "Full-fat milk or smoothie"])
+        diet["meal_plan"]["mid_morning_snack"].extend(["Handful of almonds & walnuts", "Fresh fruit juice"])
+        diet["meal_plan"]["lunch"].extend(["Brown rice with dal & vegetables", "Grilled chicken/paneer", "Curd/yogurt"])
+        diet["meal_plan"]["evening_snack"].extend(["Peanut butter toast", "Mixed fruit bowl"])
+        diet["meal_plan"]["dinner"].extend(["Chapati with mixed vegetables", "Lentil soup", "Warm milk before bed"])
+        diet["special_notes"].append("📈 Focus on calorie-dense nutritious foods to gain healthy weight")
+
+    elif bmi < 25:  # Normal
+        diet["recommended_foods"].extend(["🥗 Fresh salads & vegetables", "🍎 Seasonal fruits", "🐟 Fish & lean protein", "🌾 Whole grains", "🥛 Low-fat dairy", "🫘 Legumes & pulses"])
+        diet["foods_to_avoid"].extend(["🚫 Excessive sugar", "🚫 Processed foods", "🚫 Deep fried items"])
+        diet["meal_plan"]["breakfast"].extend(["Whole grain toast with egg whites", "Fresh fruit", "Green tea"])
+        diet["meal_plan"]["mid_morning_snack"].extend(["Fresh fruits or yogurt"])
+        diet["meal_plan"]["lunch"].extend(["Balanced plate: grains + protein + vegetables", "Buttermilk"])
+        diet["meal_plan"]["evening_snack"].extend(["Sprout salad or nuts"])
+        diet["meal_plan"]["dinner"].extend(["Light chapati with vegetables", "Dal or lean protein", "Salad"])
+        diet["special_notes"].append("✅ Great BMI! Maintain your current balanced diet")
+
+    elif bmi < 30:  # Overweight
+        diet["recommended_foods"].extend(["🥬 Leafy greens (spinach, kale)", "🥒 Cucumber & celery", "🍋 Citrus fruits", "🐔 Grilled chicken/fish", "🫖 Green tea", "🥣 Oats & quinoa"])
+        diet["foods_to_avoid"].extend(["🚫 White bread & refined carbs", "🚫 Sugary drinks & soda", "🚫 Fried foods", "🚫 Butter & cheese", "🚫 Sweets & desserts"])
+        diet["meal_plan"]["breakfast"].extend(["Vegetable oats or poha", "Green tea", "1 fruit"])
+        diet["meal_plan"]["mid_morning_snack"].extend(["Cucumber slices or buttermilk"])
+        diet["meal_plan"]["lunch"].extend(["Small portion rice with dal & veggie curry", "Large salad"])
+        diet["meal_plan"]["evening_snack"].extend(["Roasted chana or green tea"])
+        diet["meal_plan"]["dinner"].extend(["Soup + grilled protein", "Steamed vegetables", "No carbs after 7 PM"])
+        diet["daily_water_intake"] = "10-12 glasses (3 liters)"
+        diet["special_notes"].append("⚠️ Reduce portion sizes gradually and increase fiber intake")
+
+    else:  # Obese
+        diet["recommended_foods"].extend(["🥦 Broccoli & cauliflower", "🫑 Bell peppers", "🍅 Tomatoes", "🐟 Fish (omega-3)", "🫖 Green/herbal tea", "🥗 Raw salads before meals"])
+        diet["foods_to_avoid"].extend(["🚫 All fried foods", "🚫 Sugar in any form", "🚫 White rice & bread", "🚫 Packaged/processed food", "🚫 Alcohol", "🚫 Full-fat dairy"])
+        diet["meal_plan"]["breakfast"].extend(["Vegetable smoothie", "1 boiled egg", "Green tea"])
+        diet["meal_plan"]["mid_morning_snack"].extend(["Lemon water or plain buttermilk"])
+        diet["meal_plan"]["lunch"].extend(["Large salad first", "Small portion dal + 1 chapati", "Steamed vegetables"])
+        diet["meal_plan"]["evening_snack"].extend(["Herbal tea or warm lemon water"])
+        diet["meal_plan"]["dinner"].extend(["Clear vegetable soup", "Grilled fish/chicken (small)", "Finish by 7 PM"])
+        diet["daily_water_intake"] = "12-15 glasses (3.5 liters)"
+        diet["special_notes"].append("🚨 Consult a nutritionist for a supervised weight loss plan")
+
+    # ── High Blood Pressure ──
+    if blood_pressure >= 130:
+        diet["recommended_foods"].extend(["🍌 Potassium-rich: bananas, sweet potatoes", "🫐 Berries (blueberries, strawberries)", "🧄 Garlic & ginger"])
+        diet["foods_to_avoid"].extend(["🚫 Salt (limit to 1,500 mg/day)", "🚫 Pickles & papad", "🚫 Canned/processed foods", "🚫 Red meat"])
+        diet["special_notes"].append("🩸 Follow DASH diet principles: low sodium, high potassium")
+
+    # ── High Cholesterol ──
+    if cholesterol >= 240:
+        diet["recommended_foods"].extend(["🐟 Omega-3 rich fish (salmon, mackerel)", "🫒 Olive oil", "🥑 Avocados", "🌰 Walnuts & flaxseeds"])
+        diet["foods_to_avoid"].extend(["🚫 Egg yolks (limit to 2/week)", "🚫 Butter & ghee", "🚫 Red meat & organ meats", "🚫 Coconut oil"])
+        diet["special_notes"].append("❤️ Increase soluble fiber (oats, beans) to lower LDL cholesterol")
+    elif cholesterol >= 200:
+        diet["special_notes"].append("⚠️ Cholesterol is borderline high — reduce saturated fats")
+
+    # ── Diabetes ──
+    if diabetes == 1:
+        diet["recommended_foods"].extend(["🥒 Low glycemic foods", "🌾 Whole grains only", "🫘 Fenugreek seeds (soaked overnight)", "🍵 Bitter gourd juice"])
+        diet["foods_to_avoid"].extend(["🚫 White rice (switch to brown)", "🚫 Sugar, honey, jaggery", "🚫 Fruit juices (eat whole fruits)", "🚫 Potatoes & starchy foods"])
+        diet["meal_plan"]["mid_morning_snack"] = ["Soaked almonds (5-6) + fenugreek water"]
+        diet["daily_water_intake"] = "10-12 glasses (3 liters)"
+        diet["special_notes"].append("🩺 Eat every 2-3 hours to maintain blood sugar levels")
+        diet["special_notes"].append("📊 Monitor blood sugar before and after meals")
+
+    # ── Heart Disease ──
+    if heart_disease == 1:
+        diet["recommended_foods"].extend(["🫒 Extra virgin olive oil", "🐟 Fatty fish (2-3 times/week)", "🍇 Dark grapes & pomegranate", "🧅 Onion & garlic daily"])
+        diet["foods_to_avoid"].extend(["🚫 Trans fats & hydrogenated oils", "🚫 Excess salt", "🚫 Energy drinks", "🚫 Smoking & alcohol"])
+        diet["special_notes"].append("❤️ Follow Mediterranean diet pattern for heart health")
+        diet["special_notes"].append("🏃 Combine diet with 30 min daily walking")
+
+    # ── Smoking ──
+    if smoking == 1:
+        diet["recommended_foods"].extend(["🍊 Vitamin C rich foods (oranges, guava)", "🥕 Beta-carotene foods (carrots)", "🫖 Herbal teas"])
+        diet["special_notes"].append("🚭 Quitting smoking is the #1 thing you can do for your health")
+
+    # ── Age-based additions ──
+    if age >= 50:
+        diet["recommended_foods"].extend(["🦴 Calcium-rich foods (milk, ragi)", "☀️ Vitamin D (sunlight exposure)"])
+        diet["special_notes"].append("🦴 Increase calcium & Vitamin D for bone health")
+    if age >= 60:
+        diet["special_notes"].append("👴 Eat soft, easily digestible foods. Smaller, frequent meals.")
+
+    # Remove duplicates while preserving order
+    diet["recommended_foods"] = list(dict.fromkeys(diet["recommended_foods"]))
+    diet["foods_to_avoid"] = list(dict.fromkeys(diet["foods_to_avoid"]))
+    diet["special_notes"] = list(dict.fromkeys(diet["special_notes"]))
+
+    return diet
+
 def calculate_actual_risk(recommendations):
     """Calculate risk level based on health recommendations"""
     recommendations_str = ' '.join(recommendations)
@@ -127,6 +235,8 @@ def predict():
         risk_label = label_encoder.inverse_transform([prediction])[0]
         recommendations = get_health_recommendations(age, bmi, blood_pressure)
         actual_risk = calculate_actual_risk(recommendations)
+        # Generate personalized diet chart
+        diet_chart = get_diet_chart(age, bmi, blood_pressure, cholesterol, smoking, diabetes, heart_disease)
         # SHAP values for explainability
         shap_values = explainer.shap_values(features)
         # Handle SHAP output shape for multiclass
@@ -172,6 +282,7 @@ def predict():
                 }
             },
             "recommendations": recommendations,
+            "diet_chart": diet_chart,
             "explainability": {
                 "shap_values": shap_summary,
                 "feature_names": ["patient_id", "age", "bmi", "blood_pressure", "cholesterol", "smoking", "diabetes", "heart_disease"]
