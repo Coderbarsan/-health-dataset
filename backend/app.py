@@ -190,7 +190,7 @@ def add_patient():
     try:
         data = request.get_json()
         # Only include fields that exist in the Supabase 'patients' table
-        valid_fields = ['patient_id', 'age', 'bmi', 'blood_pressure', 'cholesterol', 'smoking', 'diabetes', 'heart_disease']
+        valid_fields = ['patient_id', 'patient_name', 'age', 'bmi', 'blood_pressure', 'cholesterol', 'smoking', 'diabetes', 'heart_disease']
         patient_record = {k: v for k, v in data.items() if k in valid_fields}
         response = supabase.table("patients").insert(patient_record).execute()
         return jsonify({"status": "success", "result": response.data}), 200
