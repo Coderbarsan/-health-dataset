@@ -1,5 +1,5 @@
 // Configuration
-const API_BASE_URL = 'https://health-backend-nb6o.onrender.com';
+const API_BASE_URL = 'https://health-backend-nh6o.onrender.com';
 
 // DOM Elements
 const form = document.getElementById('predictionForm');
