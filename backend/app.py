@@ -19,7 +19,7 @@ SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins="*", allow_headers=["Content-Type"], methods=["GET", "POST", "OPTIONS"])
 
 # Load ML model and label encoder
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "rf_model.pkl")
